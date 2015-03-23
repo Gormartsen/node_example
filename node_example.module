@@ -132,15 +132,16 @@ function node_example_theme() {
  * without requiring theme code.
  */
 function theme_node_example_address($variables) {
+  $address = $variables['address'];
+  
   $countrues = country_get_list();
-  drupal_set_message('<pre>'.print_r($variables,true).'</pre>');  
   $output = '<div class="node_example_address">';
   $output .= '<div class="field-label">'.t('Address:').'</div>';
   $output .= '<div class="field-items">'
-  . '<div>'.$variables->address_1.' '.$variables->address_2.'</div>'
-  . '<div>'.$variables->city.'</div>'
-  . '<div>'.$variables->zipcode.'</div>'
-  . '<div>'.$countrues[$variables->country].'</div>'
+  . '<div>'.$address->address_1.' '.$address->address_2.'</div>'
+  . '<div>'.$address->city.'</div>'
+  . '<div>'.$address->zipcode.'</div>'
+  . '<div>'.$countrues[$address->country].'</div>'
   .'</div>';
   $output .= '</div>';
   return $output;
