@@ -193,9 +193,17 @@ function node_example_node_update($node) {
     foreach($node->address as $key => $val){
       $fields[$key] = $val;
     }
-    db_update('node_example_address')
-      ->fields($fields)
-      ->condition('nid', $node->nid)
-      ->execute();
+    $address = db_select('node_example_address', 'nea')
+      ->fields('nea')
+      ->where('nea.nid = (:nid)', array(':nid' => $node->nid))
+      ->execute()->fetchField();
+    if ($address) {
+      db_update('node_example_address')
+        ->fields($fields)
+        ->condition('nid', $node->nid)
+        ->execute();
+    }else{
+      node_example_node_insert($node);
+    }
   }
 }
