@@ -1,0 +1,64 @@
+<?php
+/**
+ * @file
+ * Installation file for node_example.module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function node_example_schema() {
+  // Ensure translations don't break during installation.
+  $t = get_t();
+
+  $schema = array();
+  $schema['node_example_address'] = array(
+    'description' => $t('Order information.'),
+    'fields' => array(
+      'nid' => array(
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'country' => array(
+        'type' => 'varchar',
+        'length' => 2,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'address_1' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'address_2' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'city' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'region' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'zipcode' => array(
+        'type' => 'varchar',
+        'length' => 128,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'indexes' => array('nid' => array('nid')),
+    'primary key' => array('nid'),
+  );
+  return $schema;
+}

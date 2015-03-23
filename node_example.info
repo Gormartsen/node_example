@@ -1,0 +1,4 @@
+name = Node Example
+description = Node example module.
+
+core = 7.x

@@ -1,0 +1,200 @@
+<?php
+/**
+ * @file
+ * Node example.
+ *
+ * Simple enough module that provide a possibility to create node with address.
+ */
+
+/**
+ * Implements hook_form_alter().
+ *
+ */
+function node_example_form_alter(&$form, $form_state, $form_id) {
+  // First, check for the node type configuration form.
+  if ($form_id == 'node_type_form') {
+    // Alter the node type's configuration form to add our setting. We don't
+    // need to worry about saving this value back to the variable, the form
+    // we're altering will do it for us.
+
+    $form['node_example_node_type'] = array(
+      '#type' => 'radios',
+      '#title' => t('Node Example'),
+      '#default_value' => variable_get('node_example_node_type_' . $form['#node_type']->type, FALSE),
+      '#options' => array(
+        FALSE => t('Disabled'),
+        TRUE => t('Enabled')
+      ),
+      '#description' => t('Should this node have an address attached to it?'),
+    );
+  }
+  // Here we check to see if the type and node field are set. If so, it could
+  // be a node edit form.
+  elseif (isset($form['type']) && isset($form['#node']) && $form['type']['#value'] . '_node_form' == $form_id) {
+    // If the rating is enabled for this node type, we insert our control
+    // into the form.
+    $node = $form['#node'];
+    if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+      $form['address'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Address'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+        '#group' => 'additional_settings',
+        '#weight' => -1,
+      );
+    
+      $form['address']['country'] = array(
+        '#type' => 'select',
+        '#title' => t('country'),
+        '#default_value' => isset($node->address->country) ? $node->address->country : 'US',
+        '#options' => country_get_list(),
+        '#required' => TRUE,
+        '#weight' => 0,
+      );
+      $form['address']['address_1'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Address 1'),
+        '#default_value' => isset($node->address->address_1) ? $node->address->address_1 : '',
+        '#required' => TRUE,
+        '#weight' => 1,
+      );
+      $form['address']['address_2'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Address 2'),
+        '#default_value' => isset($node->address->address_2) ? $node->address->address_2 : '',
+        '#required' => TRUE,
+        '#weight' => 2,
+      );
+      $form['address']['city'] = array(
+        '#type' => 'textarea',
+        '#title' => t('City'),
+        '#default_value' => isset($node->address->city) ? $node->address->city : '',
+        '#required' => TRUE,
+        '#weight' => 3,
+      );
+      $form['address']['region'] = array(
+        '#type' => 'textarea',
+        '#title' => t('Region'),
+        '#default_value' => isset($node->address->region) ? $node->address->region : '',
+        '#required' => TRUE,
+        '#weight' => 4,
+      );
+      $form['address']['zipcode'] = array(
+        '#type' => 'textarea',
+        '#title' => t('ZipCode'),
+        '#default_value' => isset($node->address->zipcode) ? $node->address->zipcode : '',
+        '#required' => TRUE,
+        '#weight' => 5,
+      );
+
+    }
+  }
+}
+
+
+/**
+ * Implements hook_node_view().
+ */
+function node_example_node_view($node) {
+  if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+    if(!empty($node->address)){
+      $node->content['address'] = array(
+        '#markup' => theme('nodea_example_address', array('address' => $node->address)),
+        '#weight' => -1,
+      );
+    }
+  }
+}
+
+/**
+ * Implements hook_theme().
+ *
+ * This lets us tell Drupal about our theme functions and their arguments.
+ */
+function node_example_theme() {
+  return array(
+    'nodea_example_address' => array(
+      'variables' => array('address' => NULL),
+  ),
+  );
+}
+
+
+/**
+ * A custom theme function.
+ *
+ * By using this function to format our rating, themes can override this
+ * presentation if they wish; for example, they could provide a star graphic
+ * for the rating. We also wrap the default presentation in a CSS class that
+ * is prefixed by the module name. This way, style sheets can modify the output
+ * without requiring theme code.
+ */
+function theme_nodea_example_address($variables) {
+  $countrues = country_get_list();
+  
+  $output = '<div class="node_example_address">';
+  $output .= '<div class="field-label">'.t('Address:').'</div>';
+  $output .= '<div class="field-items">'
+  . '<div>'.$variables->address_1.' '.$variables->address_2.'</div>'
+  . '<div>'.$variables->city.'</div>'
+  . '<div>'.$variables->zipcode.'</div>'
+  . '<div>'.$countrues[$variables->country].'</div>'
+  .'</div>';
+  $output .= '</div>';
+  return $output;
+}
+
+
+/**
+ * Implements hook_node_load().
+ */
+function node_example_node_load(&$nodes, $types) {
+  // Decide whether any of $types are relevant to our purposes.
+  if (count(array_intersect($types_we_want_to_process, $types))) {
+    // Gather our extra data for each of these nodes.
+    $result = db_query('SELECT * FROM {node_example_address} WHERE nid IN(:nids)', array(':nids' => array_keys($nodes)));
+    // Add our extra data to the node objects.
+    foreach ($result as $record) {
+      $nodes[$record->nid]->address = $record;
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function node_example_node_insert($node) {
+  if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+    $fields['nid'] = $node->nid;
+    foreach($node->address as $key => $val){
+      $fields[$key] = $val;
+    }
+    db_insert('node_example_address')
+      ->fields($fields)
+      ->execute();
+  }
+}
+
+/**
+ * Implements hook_node_delete().
+ */
+function node_example_node_delete($node) {
+  db_delete('node_example_address')->condition('nid', $node->nid)->execute();
+}
+
+/**
+ * Implements hook_node_update().
+ */
+function node_example_node_update($node) {
+  if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+    $fields = array();
+    foreach($node->address as $key => $val){
+      $fields[$key] = $val;
+    }
+    db_update('node_example_address')
+      ->fields($fields)
+      ->condition('nid', $node->nid)
+      ->execute();
+  }
+}
