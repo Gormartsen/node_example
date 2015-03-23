@@ -188,6 +188,7 @@ function node_example_node_delete($node) {
  * Implements hook_node_update().
  */
 function node_example_node_update($node) {
+  drupal_set_message('<pre>'.print_r($node,true).'</pre>')
   if (variable_get('node_example_node_type_' . $node->type, FALSE)) {
     $fields = array();
     foreach($node->address as $key => $val){
