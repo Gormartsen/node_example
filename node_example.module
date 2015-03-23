@@ -97,10 +97,10 @@ function node_example_form_alter(&$form, $form_state, $form_id) {
  * Implements hook_node_view().
  */
 function node_example_node_view($node) {
-  if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+  if (variable_get('node_example_node_type_' . $node->type, FALSE)) {
     if(!empty($node->address)){
       $node->content['address'] = array(
-        '#markup' => theme('nodea_example_address', array('address' => $node->address)),
+        '#markup' => theme('node_example_address', array('address' => $node->address)),
         '#weight' => -1,
       );
     }
