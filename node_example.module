@@ -166,7 +166,7 @@ function node_example_node_load($nodes, $types) {
  * Implements hook_node_delete().
  */
 function node_example_node_insert($node) {
-  if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+  if (variable_get('node_example_node_type_' . $node->type, FALSE)) {
     $fields['nid'] = $node->nid;
     foreach($node->address as $key => $val){
       $fields[$key] = $val;
@@ -188,7 +188,7 @@ function node_example_node_delete($node) {
  * Implements hook_node_update().
  */
 function node_example_node_update($node) {
-  if (variable_get('node_example_node_type_' . $form['type']['#value'], FALSE)) {
+  if (variable_get('node_example_node_type_' . $node->type, FALSE)) {
     $fields = array();
     foreach($node->address as $key => $val){
       $fields[$key] = $val;
