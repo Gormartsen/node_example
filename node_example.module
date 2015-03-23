@@ -153,7 +153,7 @@ function node_example_node_load($nodes, $types) {
   // Decide whether any of $types are relevant to our purposes.
     // Gather our extra data for each of these nodes.
     $result = db_select('node_example_address', 'nea')
-      ->fields('nea'),
+      ->fields('nea')
       ->where('nea.nid IN (:nids)', array(':nids' => array_keys($nodes)))
       ->execute();
         // Add our extra data to the node objects.
