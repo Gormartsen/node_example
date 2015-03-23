@@ -133,7 +133,7 @@ function node_example_theme() {
  */
 function theme_node_example_address($variables) {
   $countrues = country_get_list();
-  
+  drupal_set_message('<pre>'.print_r($variables,true).'</pre>');  
   $output = '<div class="node_example_address">';
   $output .= '<div class="field-label">'.t('Address:').'</div>';
   $output .= '<div class="field-items">'
