@@ -149,7 +149,7 @@ function theme_nodea_example_address($variables) {
 /**
  * Implements hook_node_load().
  */
-function node_example_node_load(&$nodes, $types) {
+function node_example_node_load($nodes, $types) {
   // Decide whether any of $types are relevant to our purposes.
   if (count(array_intersect($types_we_want_to_process, $types))) {
     // Gather our extra data for each of these nodes.
