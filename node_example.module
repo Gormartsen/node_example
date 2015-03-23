@@ -114,7 +114,7 @@ function node_example_node_view($node) {
  */
 function node_example_theme() {
   return array(
-    'nodea_example_address' => array(
+    'node_example_address' => array(
       'variables' => array('address' => NULL),
   ),
   );
@@ -130,7 +130,7 @@ function node_example_theme() {
  * is prefixed by the module name. This way, style sheets can modify the output
  * without requiring theme code.
  */
-function theme_nodea_example_address($variables) {
+function theme_node_example_address($variables) {
   $countrues = country_get_list();
   
   $output = '<div class="node_example_address">';
@@ -151,14 +151,15 @@ function theme_nodea_example_address($variables) {
  */
 function node_example_node_load($nodes, $types) {
   // Decide whether any of $types are relevant to our purposes.
-  if (count(array_intersect($types_we_want_to_process, $types))) {
     // Gather our extra data for each of these nodes.
-    $result = db_query('SELECT * FROM {node_example_address} WHERE nid IN(:nids)', array(':nids' => array_keys($nodes)));
-    // Add our extra data to the node objects.
+    $result = db_select('node_example_address', 'nea')
+      ->fields('nea'),
+      ->where('nea.nid IN (:nids)', array(':nids' => array_keys($nodes)))
+      ->execute();
+        // Add our extra data to the node objects.
     foreach ($result as $record) {
       $nodes[$record->nid]->address = $record;
     }
-  }
 }
 
 /**
