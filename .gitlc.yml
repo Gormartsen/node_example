@@ -1,0 +1,11 @@
+coding_standards:
+  name: drupal
+site:
+  name: "My test site"
+  core: "drupal-7|drupal-6|none"
+  sql_dump: "backup.sql"
+  dependencies:
+    altpager:
+      url: https://github.com/itpatrol/altpager
+      branch: master
+  enable: blog
