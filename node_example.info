@@ -1,4 +1,6 @@
 name = Node Example
 description = Node example module. dont make mispel
 
+version = 1.x
+
 core = 7.x
