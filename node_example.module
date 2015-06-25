@@ -210,3 +210,4 @@ function node_example_node_update($node) {
     }
   }
 }
+?>
