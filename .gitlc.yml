@@ -1,5 +1,9 @@
 coding_standards:
   name: Drupal
+    check:
+    "sites/all/modules/node_example": Zend
+    "./": DrupalPractice
+
 site:
   name: "My test site"
   core: "drupal-7|drupal-6|none"
