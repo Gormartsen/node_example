@@ -1,5 +1,5 @@
 coding_standards:
-  name: drupal
+  name: Drupal
 
 site:
   name: "My test site"
