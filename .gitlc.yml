@@ -1,5 +1,7 @@
 coding_standards:
   name: codespell
+  check:
+    "sites/all/modules/gitlc": codespell Zend DrupalPractice DrupalSecure 
 site:
   name: "My test site"
   core: "drupal-7|drupal-6|none"
