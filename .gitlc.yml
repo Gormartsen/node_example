@@ -1,5 +1,5 @@
 coding_standards:
-  name: CodeSpell
+  name: DrupalPractice
 
 site:
   name: "My test site"
