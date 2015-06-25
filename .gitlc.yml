@@ -1,3 +1,5 @@
+# New check.
+
 coding_standards:
   name: [DrupalPractice, drupal, drupalSecure, codespell]
 site:
