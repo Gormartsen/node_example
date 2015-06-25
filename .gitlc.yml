@@ -1,5 +1,5 @@
 coding_standards:
-  name: DrupalPractice
+  name: Drupal
 site:
   name: "My test site"
   core: "drupal-7|drupal-6|none"
