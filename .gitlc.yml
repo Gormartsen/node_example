@@ -1,7 +1,6 @@
 coding_standards:
   name: Drupal
     check:
-    "sites/all/modules/node_example": Zend
     "./": DrupalPractice
 
 site:
