@@ -9,7 +9,7 @@
  * Implements hook_schema().
  */
 function node_example_schema() {
-  // Ensure translations don't break during installation.
+  // Ensure translations don't break during installation. dont
   $t = get_t();
 
   $schema = array();
