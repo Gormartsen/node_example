@@ -2,5 +2,7 @@ name = Node Example
 description = Node example module. dont make mispel
 
 version = 1.x
+project = node_example
+datestamp = 1234343
 
 core = 7.x
