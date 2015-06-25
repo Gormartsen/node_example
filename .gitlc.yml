@@ -1,7 +1,5 @@
 coding_standards:
-  name: Drupal
-    check:
-    "./": DrupalPractice
+  name: drupal
 
 site:
   name: "My test site"
