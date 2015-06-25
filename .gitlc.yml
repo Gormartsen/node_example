@@ -1,4 +1,4 @@
-# New check.
+# New check: pull request.
 
 coding_standards:
   name: [DrupalPractice, drupal, drupalSecure, codespell]
