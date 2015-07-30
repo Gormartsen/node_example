@@ -1,11 +1,2 @@
 coding_standards:
-  name: [DrupalPractice, drupal, drupalSecure, codespell, DrupalOrg]
-site:
-  name: "My test site"
-  core: "drupal-7|drupal-6|none"
-  sql_dump: "backup.sql"
-  dependencies:
-    altpager:
-      url: https://github.com/itpatrol/altpager
-      branch: master
-  enable: blog
+  name: [codespell,drupal,drupalpractice]
